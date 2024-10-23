@@ -20,7 +20,7 @@ CREATE TABLE claustro(
 -- Crear tabla proyectos .
 CREATE TABLE proyectos(
   id_proyecto serial NOT NULL PRIMARY KEY, 
-  nombre varchar(45) NOT NULL, 
+  nombre varchar(45) NOT NULL
   
 );
 
@@ -28,8 +28,8 @@ CREATE TABLE proyectos(
 CREATE TABLE resultado_proyectos(
   id_proyecto int NOT NULL, 
   id_alumno int NOT NULL,
-  calificacion varchar(45)
-  FOREIGN KEY (id_proyecto) REFERENCES proyectos(id_proyecto)
+  calificacion varchar(45),
+  FOREIGN KEY (id_proyecto) REFERENCES proyectos(id_proyecto),
   FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno)
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE resultado_proyectos(
 -- Crear tabla verticales .
 CREATE TABLE verticales(
   id_vertical serial NOT NULL PRIMARY KEY, 
-  nombre varchar(45) NOT NULL, 
+  nombre varchar(45) NOT NULL
 );
 
 -- Crear tabla promociones .
@@ -52,13 +52,13 @@ CREATE TABLE promociones(
 -- Crear tabla campus .
 CREATE TABLE campus(
   id_campus serial NOT NULL PRIMARY KEY, 
-  nombre varchar(45) NOT NULL, 
+  nombre varchar(45) NOT NULL
 );
 -- Crear tabla promocion_asociada (tabla intermedia) .
 CREATE TABLE promocion_asociada(
   id_claustro int NOT NULL,
   id_promocion int NOT NULL,
-  FOREIGN KEY (id_claustro) REFERENCES claustro(id_claustro)
+  FOREIGN KEY (id_claustro) REFERENCES claustro(id_claustro),
   FOREIGN KEY (id_promocion) REFERENCES promociones(id_promocion)
 );
 
