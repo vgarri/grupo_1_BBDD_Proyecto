@@ -6,15 +6,7 @@ CREATE TABLE campus(
   nombre varchar(45) NOT NULL
 );
 
--- Crear tabla proyectos .
-CREATE TABLE proyectos(
-  id_proyecto serial NOT NULL PRIMARY KEY, 
-  nombre varchar(45) NOT NULL,
-  id_vertical int NOT NULL,
-  FOREIGN KEY (id_vertical) REFERENCES verticales(id_vertical)
 
-  
-);
 
 -- Crear tabla promociones .
 CREATE TABLE promociones(
@@ -29,6 +21,14 @@ CREATE TABLE verticales(
   id_vertical serial NOT NULL PRIMARY KEY, 
   nombre varchar(45) NOT NULL
 );
+-- Crear tabla proyectos .
+CREATE TABLE proyectos(
+  id_proyecto serial NOT NULL PRIMARY KEY, 
+  nombre varchar(45) NOT NULL,
+  id_vertical int NOT NULL,
+  FOREIGN KEY (id_vertical) REFERENCES verticales(id_vertical)
+
+);
 
 -- Crear tabla alumnos .
 CREATE TABLE alumnos(
@@ -37,11 +37,11 @@ CREATE TABLE alumnos(
   email varchar(100) NOT NULL UNIQUE,
   modalidad varchar(100) NOT NULL
 );
---
+-- Crear tabla alumnos
 CREATE TABLE alum_prom (
   id_alumno int NOT NULL , 
   id_promocion int NOT NULL,
-  FOREIGN KEY (id_alumno) REFERENCES alumno(id_vertical),
+  FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
   FOREIGN KEY (id_promocion) REFERENCES promociones(id_promocion)
 );
 
