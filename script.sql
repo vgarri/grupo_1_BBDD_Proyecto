@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS campus,proyectos,promociones,verticales,alumnos,claustro,resultado_proyectos,promocion_asociada, CASCADE;
+
 -- Crear tabla campus .
 CREATE TABLE campus(
   id_campus serial NOT NULL PRIMARY KEY, 
@@ -7,7 +9,10 @@ CREATE TABLE campus(
 -- Crear tabla proyectos .
 CREATE TABLE proyectos(
   id_proyecto serial NOT NULL PRIMARY KEY, 
-  nombre varchar(45) NOT NULL
+  nombre varchar(45) NOT NULL,
+  id_vertical int NOT NULL,
+  FOREIGN KEY (id_vertical) REFERENCES verticales(id_vertical)
+
   
 );
 
@@ -15,9 +20,7 @@ CREATE TABLE proyectos(
 CREATE TABLE promociones(
   id_promocion serial NOT NULL PRIMARY KEY, 
   nombre varchar(45) NOT NULL, 
-  fecha_comienzo date NOT NULL,
-  id_campus int NOT NULL,
-  FOREIGN KEY (id_campus) REFERENCES campus(id_campus)
+  fecha_comienzo date NOT NULL
 
 );
 
@@ -32,9 +35,16 @@ CREATE TABLE alumnos(
   id_alumno serial NOT NULL PRIMARY KEY, 
   nombre_completo varchar(45) NOT NULL, 
   email varchar(100) NOT NULL UNIQUE,
+  modalidad varchar(100) NOT NULL
+);
+--
+CREATE TABLE alum_prom (
+  id_alumno int NOT NULL , 
   id_promocion int NOT NULL,
+  FOREIGN KEY (id_alumno) REFERENCES alumno(id_vertical),
   FOREIGN KEY (id_promocion) REFERENCES promociones(id_promocion)
 );
+
 
 -- Crear tabla claustro .
 CREATE TABLE claustro(
@@ -42,7 +52,6 @@ CREATE TABLE claustro(
   nombre_completo varchar(45) NOT NULL, 
   email varchar(100) NOT NULL UNIQUE,
   id_vertical int NOT NULL,
-  modalidad varchar(100) NOT NULL,
   rol varchar(100) NOT NULL,
   FOREIGN KEY (id_vertical) REFERENCES verticales(id_vertical)
 );
@@ -61,8 +70,10 @@ CREATE TABLE resultado_proyectos(
 CREATE TABLE promocion_asociada(
   id_claustro int NOT NULL,
   id_promocion int NOT NULL,
+  id_campus int NOT NULL,
   FOREIGN KEY (id_claustro) REFERENCES claustro(id_claustro),
-  FOREIGN KEY (id_promocion) REFERENCES promociones(id_promocion)
+  FOREIGN KEY (id_promocion) REFERENCES promociones(id_promocion),
+  FOREIGN KEY (id_campus) REFERENCES campus(id_campus)
 );
 
 
