@@ -1,5 +1,5 @@
 --DROP TABLE IF EXISTS campus,proyectos,promociones,verticales,alumnos,claustro,resultado_proyectos,promocion_asociada, CASCADE;
-
+--preguntar date, drop table if exists
 -- Crear tabla campus .
 CREATE TABLE campus(
   id_campus serial NOT NULL PRIMARY KEY, 
