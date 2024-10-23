@@ -1,12 +1,10 @@
-DROP TABLE IF EXISTS campus,proyectos,promociones,verticales,alumnos,claustro,resultado_proyectos,promocion_asociada, CASCADE;
+--DROP TABLE IF EXISTS campus,proyectos,promociones,verticales,alumnos,claustro,resultado_proyectos,promocion_asociada, CASCADE;
 
 -- Crear tabla campus .
 CREATE TABLE campus(
   id_campus serial NOT NULL PRIMARY KEY, 
   nombre varchar(45) NOT NULL
 );
-
-
 
 -- Crear tabla promociones .
 CREATE TABLE promociones(
