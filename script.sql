@@ -50,6 +50,7 @@ CREATE TABLE claustro(
   nombre_completo varchar(45) NOT NULL, 
   email varchar(100) NOT NULL UNIQUE,
   id_vertical int NOT NULL,
+  modalidad varchar(100) NOT NULL,
   rol varchar(100) NOT NULL,
   FOREIGN KEY (id_vertical) REFERENCES verticales(id_vertical)
 );
