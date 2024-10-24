@@ -1,46 +1,89 @@
 -- 1. Obtener los nombres de todos los alumnos junto con el nombre de la promoción a la que pertenecen.
-SELECT
-	A.NOMBRE_COMPLETO, CONCAT(P.NOMBRE,' ', EXTRACT(YEAR FROM P.FECHA_COMIENZO)) AS PROMOCION
-FROM
-	ALUMNOS AS A
-INNER JOIN
-	ALUM_PROM AS AP ON A.ID_ALUMNO = AP.ID_ALUMNO
-INNER JOIN
-	PROMOCIONES AS P ON AP.ID_PROMOCION = P.ID_PROMOCION;
--- 2. LISTAR LOS PROYECTOS QUE HAN SIDO REALIZADOS POR ALUMNOS DE LA PROMOCIÓN DE SEPTIEMBRE 2023.
-SELECT
-	A.NOMBRE_COMPLETO, CONCAT(P.NOMBRE,' ', EXTRACT(YEAR FROM P.FECHA_COMIENZO)) AS PROMOCION,
-	PR.NOMBRE AS PROYECTO
-FROM
-	ALUMNOS AS A
-INNER JOIN
-	ALUM_PROM AS AP ON A.ID_ALUMNO = AP.ID_ALUMNO
-INNER JOIN
-	PROMOCIONES AS P ON AP.ID_PROMOCION = P.ID_PROMOCION
-INNER JOIN
-	RESULTADO_PROYECTOS AS RP ON A.ID_ALUMNO = RP.ID_ALUMNO
-INNER JOIN
-	PROYECTOS AS PR ON RP.ID_PROYECTO = PR.ID_PROYECTO
-WHERE
-	EXTRACT(YEAR FROM P.FECHA_COMIENZO) = 2023
-LIMIT 5;
--- 3. ENCONTRAR EL NÚMERO TOTAL DE ALUMNOS EN CADA PROMOCIÓN.
-SELECT
-    CONCAT(P.NOMBRE, ' ', EXTRACT(YEAR FROM P.FECHA_COMIENZO)) AS PROMOCION,
-    COUNT(A.ID_ALUMNO)
-FROM
-    ALUMNOS AS A
-INNER JOIN
-    ALUM_PROM AS AP ON A.ID_ALUMNO = AP.ID_ALUMNO
-INNER JOIN
-    PROMOCIONES AS P ON AP.ID_PROMOCION = P.ID_PROMOCION
-GROUP BY PROMOCION;
--- 4. OBTENER LOS NOMBRES DE LOS INSTRUCTORES (TA) QUE ESTÁN ASOCIADOS A PROMOCIONES DEL CAMPUS DE MADRID.
-SELECT
-	C.NOMBRE_COMPLETOCONCAT(P.NOMBRE, ' ', EXTRACT(YEAR FROM P.FECHA_COMIENZO)) AS PROMOCION
-FROM
-	CLAUSTRO AS C
-INNER JOIN PROMOCION_ASOCIADA AS PR ON C.ID_CLAUSTRO = PR.ID_CLAUSTRO
-INNER JOIN PROMOCIONES AS P ON PR.ID_PROMOCION = P.ID_PROMOCION
-INNER JOIN CAMPUS ON PR.ID_CAMPUS = CAMPUS.ID_CAMPUS
-WHERE C.ROL LIKE '%TA%'
+select 
+	a.nombre_completo, concat(p.nombre,' ', extract(year from p.fecha_comienzo)) as Promocion
+from 
+	alumnos as a
+inner join 
+	alum_prom as ap on a.id_alumno = ap.id_alumno
+inner join 
+	promociones as p on ap.id_promocion = p.id_promocion;
+-- 2. Listar los proyectos que han sido realizados por alumnos de la promoción de Septiembre 2023.
+select 
+	a.nombre_completo, concat(p.nombre,' ', extract(year from p.fecha_comienzo)) as promocion,
+	pr.nombre as Proyecto
+from 
+	alumnos as a
+inner join
+	alum_prom as ap on a.id_alumno = ap.id_alumno
+inner join 
+	promociones as p on ap.id_promocion = p.id_promocion
+inner join 
+	resultado_proyectos as rp on a.id_alumno = rp.id_alumno
+inner join 
+	proyectos as pr on rp.id_proyecto = pr.id_proyecto
+where 
+	extract(year from p.fecha_comienzo) = 2023
+limit 5;
+
+-- 3. Encontrar el número total de alumnos en cada promoción.
+select 
+    concat(p.nombre, ' ', extract(year from p.fecha_comienzo)) as Promocion, 
+    count(a.id_alumno)
+from 
+    alumnos as a
+inner join 
+    alum_prom as ap on a.id_alumno = ap.id_alumno
+inner join 
+    promociones as p on ap.id_promocion = p.id_promocion
+group by Promocion;
+
+-- 4. Obtener los nombres de los instructores (TA) que están asociados a promociones del campus de Madrid.
+select 
+	c.nombre_completo, c.rol, concat(p.nombre, ' ', extract(year from p.fecha_comienzo)) as Promocion,
+	campus.nombre
+from 
+	claustro as c
+inner join promocion_asociada as pr on c.id_claustro = pr.id_claustro
+inner join promociones as p on pr.id_promocion = p.id_promocion
+inner join campus on pr.id_campus = campus.id_campus
+where c.rol like '%TA%' and campus.nombre = 'Madrid';
+
+-- 5. Listar los proyectos de la vertical "DS" y los alumnos que los han completado con la calificación "Apto".
+select 
+	a.nombre_completo, v.nombre as vertical, pr.nombre proyecto, rp.calificacion
+from 
+	alumnos as a
+inner join 
+	resultado_proyectos as rp on a.id_alumno = rp.id_alumno
+inner join 
+	proyectos as pr on rp.id_proyecto = pr.id_proyecto
+inner join 
+	verticales as v on pr.id_vertical = v.id_vertical
+where v.nombre = 'DS' and calificacion = 'Apto'
+order by a.nombre_completo asc;
+-- 6. Obtener el número de proyectos completados por cada alumno.
+select 
+	a.nombre_completo, count(rp.calificacion) proyectos_completados
+from 
+	alumnos as a
+inner join 
+	resultado_proyectos as rp on a.id_alumno = rp.id_alumno
+inner join 
+	proyectos as pr on rp.id_proyecto = pr.id_proyecto
+inner join 
+	verticales as v on pr.id_vertical = v.id_vertical
+where calificacion = 'Apto'
+group by a.nombre_completo;
+-- 7. Listar los alumnos que no han sido declarados "Apto" en el proyecto "Proyecto_BBDD".
+select 
+	a.nombre_completo, v.nombre as vertical, pr.nombre proyecto, rp.calificacion
+from 
+	alumnos as a
+inner join 
+	resultado_proyectos as rp on a.id_alumno = rp.id_alumno
+inner join 
+	proyectos as pr on rp.id_proyecto = pr.id_proyecto
+inner join 
+	verticales as v on pr.id_vertical = v.id_vertical
+where calificacion = 'No Apto' and pr.nombre = 'Proyecto_BBDD'
+order by a.nombre_completo asc;
