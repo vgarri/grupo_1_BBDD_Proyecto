@@ -100,7 +100,10 @@ En un archivo .sql se ha creado una serie de queries de SQL para comprobar desde
 
 - Formulario de escritura y demás funciones CRUD.
 
-- Uso de librerías JS para evitar SQL injection
+- Uso de librerías para conexión con BD en JS o Python como PostgreSQL para evitar SQL injection:
+<p align="center">
+<a href="https://imgbb.com/"><img height=200px src="https://i.ibb.co/mFRHztx/Captura-de-pantalla-2024-10-24-a-las-23-40-45.png" alt="Captura-de-pantalla-2024-10-24-a-las-23-40-45" border="0"></a>
+</p>
 
 
 
