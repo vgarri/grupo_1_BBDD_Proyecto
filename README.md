@@ -108,7 +108,7 @@ En un archivo .sql se ha creado una serie de queries de SQL para comprobar desde
 
 
 ## ✍️ Autores <a name = "authors"></a>
-- [Rubén Veledo (Data Science)](https://github.com/kylelobo)
-- [Ana Isabel Montero Martín (Data Science)](https://github.com/kylelobo)
-- [Manuel Franceschi (Data Science)](https://github.com/kylelobo)
-- [Víctor Garritano (FullStack Dev)](https://github.com/vgarri)
+- Rubén Veledo (Data Science)
+- Ana Isabel Montero Martín (Data Science)
+- Manuel Franceschi (Data Science)
+- Víctor Garritano (FullStack Dev)
